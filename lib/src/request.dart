@@ -4,16 +4,17 @@ import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:http/http.dart' as http;
+import 'package:meta/meta.dart';
 
 import 'definitions.dart';
 import 'utils.dart';
 
 class Request {
-  static late String _apiUrl;
-  static late Map<String, String> _defaultHeaders;
-  static late Map<String, String> _defaultQueryParameters;
-  static late ProcessResponseMethod _processResponseMethod;
-  static late ProcessStreamedResponseMethod _processStreamedResponseMethod;
+  static String _apiUrl;
+  static Map<String, String> _defaultHeaders;
+  static Map<String, String> _defaultQueryParameters;
+  static ProcessResponseMethod _processResponseMethod;
+  static ProcessStreamedResponseMethod _processStreamedResponseMethod;
   static bool _initialized = false;
   static bool _useSSL = true;
 
@@ -48,10 +49,10 @@ class Request {
     String path,
     String field,
     String filePath, {
-    ProcessStreamedResponseMethod? processStreamedResponseMethod,
-    Map<String, String>? queryParameters,
-    Map<String, String>? headers,
-    String? authority,
+    ProcessStreamedResponseMethod processStreamedResponseMethod,
+    Map<String, String> queryParameters,
+    Map<String, String> headers,
+    String authority,
     bool headersReplace = false,
     bool queryParametersReplace = false,
   }) async {
@@ -74,10 +75,10 @@ class Request {
     String path,
     List<String> fields,
     List<String> filePaths, {
-    ProcessStreamedResponseMethod? processStreamedResponseMethod,
-    Map<String, String>? queryParameters,
-    Map<String, String>? headers,
-    String? authority,
+    ProcessStreamedResponseMethod processStreamedResponseMethod,
+    Map<String, String> queryParameters,
+    Map<String, String> headers,
+    String authority,
     bool headersReplace = false,
     bool queryParametersReplace = false,
   }) async {
@@ -109,17 +110,17 @@ class Request {
   }
 
   static Future<http.Response> _method({
-    required String path,
-    required body,
-    required RequestMethod requestMethod,
-    required ProcessResponseMethod? processResponseMethod,
-    required Map<String, String>? queryParameters,
-    required Map<String, String>? headers,
-    required String? authority,
-    required String nameOfMethod,
-    required http.Client? client,
-    required bool headersReplace,
-    required bool queryParametersReplace,
+    @required String path,
+    @required body,
+    @required RequestMethod requestMethod,
+    @required ProcessResponseMethod processResponseMethod,
+    @required Map<String, String> queryParameters,
+    @required Map<String, String> headers,
+    @required String authority,
+    @required String nameOfMethod,
+    @required http.Client client,
+    @required bool headersReplace,
+    @required bool queryParametersReplace,
   }) async {
     checkInitialization();
     var _queryParameters = Map<String, String>();
@@ -150,7 +151,7 @@ class Request {
     Uri uri,
     dynamic body,
     Map<String, String> headers,
-    http.Client? client,
+    http.Client client,
   ) {
     if (client == null) return http.get(uri, headers: headers);
     return client.get(uri, headers: headers);
@@ -158,11 +159,11 @@ class Request {
 
   static Future<http.Response> get(
     String path, {
-    ProcessResponseMethod? processResponseMethod,
-    Map<String, String>? queryParameters,
-    Map<String, String>? headers,
-    String? authority,
-    http.Client? client,
+    ProcessResponseMethod processResponseMethod,
+    Map<String, String> queryParameters,
+    Map<String, String> headers,
+    String authority,
+    http.Client client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
   }) {
@@ -185,7 +186,7 @@ class Request {
     Uri uri,
     dynamic body,
     Map<String, String> headers,
-    http.Client? client,
+    http.Client client,
   ) {
     if (client == null)
       return http.post(uri, body: jsonEncode(body), headers: headers);
@@ -195,11 +196,11 @@ class Request {
   static Future<http.Response> post(
     String path, {
     body,
-    ProcessResponseMethod? processResponseMethod,
-    Map<String, String>? queryParameters,
-    Map<String, String>? headers,
-    String? authority,
-    http.Client? client,
+    ProcessResponseMethod processResponseMethod,
+    Map<String, String> queryParameters,
+    Map<String, String> headers,
+    String authority,
+    http.Client client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
   }) async {
@@ -222,7 +223,7 @@ class Request {
     Uri uri,
     dynamic body,
     Map<String, String> headers,
-    http.Client? client,
+    http.Client client,
   ) {
     if (client == null)
       return http.put(uri, body: jsonEncode(body), headers: headers);
@@ -232,11 +233,11 @@ class Request {
   static Future<http.Response> put(
     String path, {
     body,
-    ProcessResponseMethod? processResponseMethod,
-    Map<String, String>? queryParameters,
-    Map<String, String>? headers,
-    String? authority,
-    http.Client? client,
+    ProcessResponseMethod processResponseMethod,
+    Map<String, String> queryParameters,
+    Map<String, String> headers,
+    String authority,
+    http.Client client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
   }) async {
@@ -259,7 +260,7 @@ class Request {
     Uri uri,
     dynamic body,
     Map<String, String> headers,
-    http.Client? client,
+    http.Client client,
   ) {
     if (client == null) return http.delete(uri, headers: headers);
     return client.delete(uri, headers: headers);
@@ -267,11 +268,11 @@ class Request {
 
   static Future<http.Response> delete(
     String path, {
-    ProcessResponseMethod? processResponseMethod,
-    Map<String, String>? queryParameters,
-    Map<String, String>? headers,
-    String? authority,
-    http.Client? client,
+    ProcessResponseMethod processResponseMethod,
+    Map<String, String> queryParameters,
+    Map<String, String> headers,
+    String authority,
+    http.Client client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
   }) {
@@ -294,7 +295,7 @@ class Request {
     Uri uri,
     dynamic body,
     Map<String, String> headers,
-    http.Client? client,
+    http.Client client,
   ) {
     if (client == null) return http.head(uri, headers: headers);
     return client.head(uri, headers: headers);
@@ -302,11 +303,11 @@ class Request {
 
   static Future<http.Response> head(
     String path, {
-    ProcessResponseMethod? processResponseMethod,
-    Map<String, String>? queryParameters,
-    Map<String, String>? headers,
-    String? authority,
-    http.Client? client,
+    ProcessResponseMethod processResponseMethod,
+    Map<String, String> queryParameters,
+    Map<String, String> headers,
+    String authority,
+    http.Client client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
   }) {
@@ -329,7 +330,7 @@ class Request {
     Uri uri,
     dynamic body,
     Map<String, String> headers,
-    http.Client? client,
+    http.Client client,
   ) {
     if (client == null)
       return http.patch(uri, body: jsonEncode(body), headers: headers);
@@ -339,11 +340,11 @@ class Request {
   static Future<http.Response> patch(
     String path, {
     body,
-    ProcessResponseMethod? processResponseMethod,
-    Map<String, String>? queryParameters,
-    Map<String, String>? headers,
-    String? authority,
-    http.Client? client,
+    ProcessResponseMethod processResponseMethod,
+    Map<String, String> queryParameters,
+    Map<String, String> headers,
+    String authority,
+    http.Client client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
   }) async {

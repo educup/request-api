@@ -17,8 +17,8 @@ class RequestAPI {
     String authority,
     String bearerToken, {
     bool useSSL = true,
-    Map<String, String>? headers,
-    Map<String, String>? queryParameters,
+    Map<String, String> headers,
+    Map<String, String> queryParameters,
   }) {
     final _headers = {
       HttpHeaders.authorizationHeader: bearerToken,
@@ -26,7 +26,7 @@ class RequestAPI {
     };
     if (headers != null) {
       _headers.updateAll(
-        (key, value) => headers.containsKey(key) ? headers[key]! : value,
+        (key, value) => headers.containsKey(key) ? headers[key] : value,
       );
     }
 

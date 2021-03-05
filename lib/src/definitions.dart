@@ -4,7 +4,7 @@ typedef RequestMethod = Future<http.Response> Function(
   Uri uri,
   dynamic body,
   Map<String, String> headers,
-  http.Client?,
+  http.Client,
 );
 
 typedef ProcessResponseMethod = Future<void> Function(http.Response response);
