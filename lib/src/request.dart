@@ -85,7 +85,7 @@ class Request {
     var _queryParameters = Map<String, String>();
     if (!queryParametersReplace)
       _queryParameters.addAll(_defaultQueryParameters);
-    _queryParameters.addAll(headers ?? {});
+    _queryParameters.addAll(queryParameters ?? {});
     var uri = _useSSL
         ? Uri.https(authority ?? _apiUrl, path, _queryParameters)
         : Uri.http(authority ?? _apiUrl, path, _queryParameters);
@@ -125,7 +125,7 @@ class Request {
     var _queryParameters = Map<String, String>();
     if (!queryParametersReplace)
       _queryParameters.addAll(_defaultQueryParameters);
-    _queryParameters.addAll(headers ?? {});
+    _queryParameters.addAll(queryParameters ?? {});
     var uri = _useSSL
         ? Uri.https(authority ?? _apiUrl, path, _queryParameters)
         : Uri.http(authority ?? _apiUrl, path, _queryParameters);
