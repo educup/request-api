@@ -16,6 +16,7 @@ class Request {
   static late ProcessStreamedResponseMethod _processStreamedResponseMethod;
   static bool _initialized = false;
   static bool _useSSL = true;
+  static bool _debug = false;
 
   static bool checkInitialization() {
     if (!_initialized) {
@@ -31,6 +32,7 @@ class Request {
     ProcessResponseMethod processResponseMethod,
     ProcessStreamedResponseMethod processStreamedResponseMethod, {
     bool useSSL = true,
+    bool debug = false,
   }) {
     _apiUrl = authority;
     _defaultHeaders = {};
@@ -40,6 +42,7 @@ class Request {
     _processResponseMethod = processResponseMethod;
     _processStreamedResponseMethod = processStreamedResponseMethod;
     _useSSL = useSSL;
+    _debug = debug;
     _initialized = true;
   }
 
@@ -99,7 +102,9 @@ class Request {
     }
     var response = await request.send();
     var body = utf8.decode(await response.stream.toBytes());
-    printResponse(method.name, path, response.statusCode, body);
+    if (_debug) {
+      printResponse(method.name, path, response.statusCode, body);
+    }
     if (processStreamedResponseMethod != null) {
       await processStreamedResponseMethod(response);
     } else {
@@ -129,15 +134,19 @@ class Request {
     var uri = _useSSL
         ? Uri.https(authority ?? _apiUrl, path, _queryParameters)
         : Uri.http(authority ?? _apiUrl, path, _queryParameters);
-    dev.log(
-      'Request $nameOfMethod: $uri\n\t\t'
-      '${body != null ? 'Body: $body' : ''}',
-    );
+    if (_debug) {
+      dev.log(
+        'Request $nameOfMethod: $uri\n\t\t'
+        '${body != null ? 'Body: $body' : ''}',
+      );
+    }
     var _headers = Map<String, String>();
     if (!headersReplace) _headers.addAll(_defaultHeaders);
     _headers.addAll(headers ?? {});
     var response = await requestMethod(uri, body, _headers, client);
-    printResponse(nameOfMethod, path, response.statusCode, response.body);
+    if (_debug) {
+      printResponse(nameOfMethod, path, response.statusCode, response.body);
+    }
     if (processResponseMethod != null) {
       await processResponseMethod(response);
     } else {

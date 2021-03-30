@@ -1,6 +1,6 @@
 name: request_api
 description: A wrapper of Dart http package.
-version: 1.0.1
+version: 1.1.0
 
 publish_to: 'none'
 
@@ -10,4 +10,4 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.0
+  http: ^0.13.1
