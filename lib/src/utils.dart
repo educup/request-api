@@ -14,7 +14,7 @@ List<T> parseList<T>(String data, ParserMethod<T> method) {
       .toList();
 }
 
-Future<T> tryParse<T>(TryParserMethod method) async {
+Future<T> tryParse<T>(TryParserMethod<T> method) async {
   T result;
   try {
     result = await method();

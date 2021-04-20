@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:http/http.dart' as http;
 
 typedef RequestMethod = Future<http.Response> Function(
@@ -15,4 +17,4 @@ typedef ProcessStreamedResponseMethod = Future<void> Function(
 
 typedef ParserMethod<T> = T Function(Map<String, dynamic> data);
 
-typedef TryParserMethod<T> = T Function();
+typedef TryParserMethod<T> = FutureOr<T> Function();
