@@ -25,24 +25,26 @@ Future<T> tryParse<T>(TryParserMethod<T> method) async {
   return result;
 }
 
-void printResponse(
-  String method,
-  String path,
-  int statusCode,
-  String data,
-) {
+void printResponse({
+  required String method,
+  required String path,
+  required int statusCode,
+  required String data,
+  required void Function(String)? logFunction,
+}) {
+  var func = logFunction ?? log;
   try {
     // A pretty print json function
     var prettyData = JsonEncoder.withIndent('    ').convert(
       JsonDecoder().convert(data),
     );
-    log(
+    func(
       'Response $method: $path\n\t\t'
       'Status: $statusCode\n\t\t'
       'Data: $prettyData',
     );
   } catch (_) {
-    log(
+    func(
       'Response $method: $path\n\t\t'
       'Status: $statusCode\n\t\t'
       'Data: $data',

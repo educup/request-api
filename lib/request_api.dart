@@ -20,6 +20,7 @@ class RequestAPI {
     Map<String, String>? headers,
     Map<String, String>? queryParameters,
     bool debug = false,
+    void Function(String)? logFunction,
   }) {
     final _headers = {
       HttpHeaders.authorizationHeader: bearerToken,
@@ -61,6 +62,7 @@ class RequestAPI {
       processStreamedResponseMethod,
       useSSL: useSSL,
       debug: debug,
+      logFunction: logFunction,
     );
   }
 }

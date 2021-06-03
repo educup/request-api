@@ -17,6 +17,7 @@ class Request {
   static bool _initialized = false;
   static bool _useSSL = true;
   static bool _debug = false;
+  static void Function(String)? _logFunction;
 
   static bool checkInitialization() {
     if (!_initialized) {
@@ -33,6 +34,7 @@ class Request {
     ProcessStreamedResponseMethod processStreamedResponseMethod, {
     bool useSSL = true,
     bool debug = false,
+    void Function(String)? logFunction,
   }) {
     _apiUrl = authority;
     _defaultHeaders = {};
@@ -43,6 +45,7 @@ class Request {
     _processStreamedResponseMethod = processStreamedResponseMethod;
     _useSSL = useSSL;
     _debug = debug;
+    _logFunction = logFunction;
     _initialized = true;
   }
 
@@ -103,7 +106,13 @@ class Request {
     var response = await request.send();
     var body = utf8.decode(await response.stream.toBytes());
     if (_debug) {
-      printResponse(method.name, path, response.statusCode, body);
+      printResponse(
+        method: method.name,
+        path: path,
+        statusCode: response.statusCode,
+        data: body,
+        logFunction: _logFunction,
+      );
     }
     if (processStreamedResponseMethod != null) {
       await processStreamedResponseMethod(response);
@@ -145,7 +154,13 @@ class Request {
     _headers.addAll(headers ?? {});
     var response = await requestMethod(uri, body, _headers, client);
     if (_debug) {
-      printResponse(nameOfMethod, path, response.statusCode, response.body);
+      printResponse(
+        method: nameOfMethod,
+        path: path,
+        statusCode: response.statusCode,
+        data: response.body,
+        logFunction: _logFunction,
+      );
     }
     if (processResponseMethod != null) {
       await processResponseMethod(response);
