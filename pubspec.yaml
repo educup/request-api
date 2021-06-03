@@ -10,4 +10,4 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.1
+  http: ^0.13.3
