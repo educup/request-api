@@ -134,13 +134,14 @@ class Request {
     required http.Client? client,
     required bool headersReplace,
     required bool queryParametersReplace,
+    required bool? useSSL,
   }) async {
     checkInitialization();
     var _queryParameters = Map<String, String>();
     if (!queryParametersReplace)
       _queryParameters.addAll(_defaultQueryParameters);
     _queryParameters.addAll(queryParameters ?? {});
-    var uri = _useSSL
+    var uri = (useSSL ?? _useSSL)
         ? Uri.https(authority ?? _apiUrl, path, _queryParameters)
         : Uri.http(authority ?? _apiUrl, path, _queryParameters);
     if (_debug) {
@@ -189,6 +190,7 @@ class Request {
     http.Client? client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
+    bool? useSSL,
   }) {
     return _method(
       path: path,
@@ -202,6 +204,7 @@ class Request {
       client: client,
       headersReplace: headersReplace,
       queryParametersReplace: queryParametersReplace,
+      useSSL: useSSL,
     );
   }
 
@@ -226,6 +229,7 @@ class Request {
     http.Client? client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
+    bool? useSSL,
   }) async {
     return _method(
       path: path,
@@ -239,6 +243,7 @@ class Request {
       client: client,
       headersReplace: headersReplace,
       queryParametersReplace: queryParametersReplace,
+      useSSL: useSSL,
     );
   }
 
@@ -263,6 +268,7 @@ class Request {
     http.Client? client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
+    bool? useSSL,
   }) async {
     return _method(
       path: path,
@@ -276,6 +282,7 @@ class Request {
       client: client,
       headersReplace: headersReplace,
       queryParametersReplace: queryParametersReplace,
+      useSSL: useSSL,
     );
   }
 
@@ -298,6 +305,7 @@ class Request {
     http.Client? client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
+    bool? useSSL,
   }) {
     return _method(
       path: path,
@@ -311,6 +319,7 @@ class Request {
       client: client,
       headersReplace: headersReplace,
       queryParametersReplace: queryParametersReplace,
+      useSSL: useSSL,
     );
   }
 
@@ -333,6 +342,7 @@ class Request {
     http.Client? client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
+    bool? useSSL,
   }) {
     return _method(
       path: path,
@@ -346,6 +356,7 @@ class Request {
       client: client,
       headersReplace: headersReplace,
       queryParametersReplace: queryParametersReplace,
+      useSSL: useSSL,
     );
   }
 
@@ -370,6 +381,7 @@ class Request {
     http.Client? client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
+    bool? useSSL,
   }) async {
     return _method(
       path: path,
@@ -383,6 +395,7 @@ class Request {
       client: client,
       headersReplace: headersReplace,
       queryParametersReplace: queryParametersReplace,
+      useSSL: useSSL,
     );
   }
 }
