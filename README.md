@@ -27,3 +27,5 @@ class ExampleApi {
   }
 }
 ```
+
+**IMPORTANT**: outdated Readme.
