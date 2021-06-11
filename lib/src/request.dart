@@ -145,8 +145,13 @@ class Request {
         ? Uri.https(authority ?? _apiUrl, path, _queryParameters)
         : Uri.http(authority ?? _apiUrl, path, _queryParameters);
     if (_debug) {
-      dev.log(
-        'Request $nameOfMethod: $uri\n\t\t'
+      var func = _logFunction ?? dev.log;
+      var queryString = _queryParameters.entries
+          .map((e) => '$e.key=$e.value')
+          .reduce((a, b) => '$a&$b');
+      var query = queryString.isNotEmpty ? '?$queryString' : '';
+      func(
+        'Request $nameOfMethod: $uri$query\n\t\t'
         '${body != null ? 'Body: $body' : ''}',
       );
     }
