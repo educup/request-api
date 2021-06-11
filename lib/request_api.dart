@@ -82,7 +82,7 @@ class RequestAPI {
     String? authority,
     bool headersReplace = false,
     bool queryParametersReplace = false,
-    required bool? useSSL,
+    bool? useSSL,
   }) async {
     return sendFiles(
       method,
@@ -110,7 +110,7 @@ class RequestAPI {
     String? authority,
     bool headersReplace = false,
     bool queryParametersReplace = false,
-    required bool? useSSL,
+    bool? useSSL,
   }) async {
     final _queryParameters = <String, String>{};
     if (!queryParametersReplace) {
