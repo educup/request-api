@@ -7,6 +7,7 @@ typedef RequestMethod = Future<http.Response> Function(
   dynamic body,
   Map<String, String> headers,
   http.Client?,
+  bool useJsonEncode,
 );
 
 typedef ProcessResponseMethod = Future<void> Function(http.Response response);

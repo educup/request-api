@@ -21,6 +21,7 @@ class RequestAPI {
   final Map<String, String> queryParameters;
   final ProcessResponseMethod processResponseMethod;
   final ProcessStreamedResponseMethod processStreamedResponseMethod;
+  final bool useJsonEncode;
   final bool useSSL;
   final bool debug;
   final void Function(String)? logFunction;
@@ -31,6 +32,7 @@ class RequestAPI {
     required this.queryParameters,
     required this.processResponseMethod,
     required this.processStreamedResponseMethod,
+    this.useJsonEncode = true,
     this.useSSL = true,
     this.debug = false,
     this.logFunction,
@@ -169,6 +171,7 @@ class RequestAPI {
     required bool headersReplace,
     required bool queryParametersReplace,
     required bool? useSSL,
+    required bool useJsonEncode,
   }) async {
     final _queryParameters = <String, String>{};
     if (!queryParametersReplace) {
@@ -195,7 +198,13 @@ class RequestAPI {
         '${body != null ? 'Body: $body' : ''}',
       );
     }
-    final response = await requestMethod(uri, body, _headers, client);
+    final response = await requestMethod(
+      uri,
+      body,
+      _headers,
+      client,
+      useJsonEncode,
+    );
     if (debug) {
       printResponse(
         method: nameOfMethod,
@@ -218,6 +227,7 @@ class RequestAPI {
     dynamic body,
     Map<String, String> headers,
     http.Client? client,
+    bool useJsonEncode,
   ) {
     if (client == null) return http.get(uri, headers: headers);
     return client.get(uri, headers: headers);
@@ -247,6 +257,7 @@ class RequestAPI {
       headersReplace: headersReplace,
       queryParametersReplace: queryParametersReplace,
       useSSL: useSSL,
+      useJsonEncode: true,
     );
   }
 
@@ -255,11 +266,20 @@ class RequestAPI {
     dynamic body,
     Map<String, String> headers,
     http.Client? client,
+    bool useJsonEncode,
   ) {
     if (client == null) {
-      return http.post(uri, body: jsonEncode(body), headers: headers);
+      return http.post(
+        uri,
+        body: useJsonEncode ? jsonEncode(body) : body,
+        headers: headers,
+      );
     }
-    return client.post(uri, body: jsonEncode(body), headers: headers);
+    return client.post(
+      uri,
+      body: useJsonEncode ? jsonEncode(body) : body,
+      headers: headers,
+    );
   }
 
   Future<http.Response> post(
@@ -272,6 +292,7 @@ class RequestAPI {
     http.Client? client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
+    bool? useJsonEncode,
     bool? useSSL,
   }) async {
     return _method(
@@ -287,6 +308,7 @@ class RequestAPI {
       headersReplace: headersReplace,
       queryParametersReplace: queryParametersReplace,
       useSSL: useSSL,
+      useJsonEncode: useJsonEncode ?? this.useJsonEncode,
     );
   }
 
@@ -295,11 +317,20 @@ class RequestAPI {
     dynamic body,
     Map<String, String> headers,
     http.Client? client,
+    bool useJsonEncode,
   ) {
     if (client == null) {
-      return http.put(uri, body: jsonEncode(body), headers: headers);
+      return http.put(
+        uri,
+        body: useJsonEncode ? jsonEncode(body) : body,
+        headers: headers,
+      );
     }
-    return client.put(uri, body: jsonEncode(body), headers: headers);
+    return client.put(
+      uri,
+      body: useJsonEncode ? jsonEncode(body) : body,
+      headers: headers,
+    );
   }
 
   Future<http.Response> put(
@@ -312,6 +343,7 @@ class RequestAPI {
     http.Client? client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
+    bool? useJsonEncode,
     bool? useSSL,
   }) async {
     return _method(
@@ -327,6 +359,7 @@ class RequestAPI {
       headersReplace: headersReplace,
       queryParametersReplace: queryParametersReplace,
       useSSL: useSSL,
+      useJsonEncode: useJsonEncode ?? this.useJsonEncode,
     );
   }
 
@@ -335,6 +368,7 @@ class RequestAPI {
     dynamic body,
     Map<String, String> headers,
     http.Client? client,
+    bool useJsonEncode,
   ) {
     if (client == null) return http.delete(uri, headers: headers);
     return client.delete(uri, headers: headers);
@@ -364,6 +398,7 @@ class RequestAPI {
       headersReplace: headersReplace,
       queryParametersReplace: queryParametersReplace,
       useSSL: useSSL,
+      useJsonEncode: true,
     );
   }
 
@@ -372,6 +407,7 @@ class RequestAPI {
     dynamic body,
     Map<String, String> headers,
     http.Client? client,
+    bool useJsonEncode,
   ) {
     if (client == null) return http.head(uri, headers: headers);
     return client.head(uri, headers: headers);
@@ -401,6 +437,7 @@ class RequestAPI {
       headersReplace: headersReplace,
       queryParametersReplace: queryParametersReplace,
       useSSL: useSSL,
+      useJsonEncode: true,
     );
   }
 
@@ -409,11 +446,20 @@ class RequestAPI {
     dynamic body,
     Map<String, String> headers,
     http.Client? client,
+    bool useJsonEncode,
   ) {
     if (client == null) {
-      return http.patch(uri, body: jsonEncode(body), headers: headers);
+      return http.patch(
+        uri,
+        body: useJsonEncode ? jsonEncode(body) : body,
+        headers: headers,
+      );
     }
-    return client.patch(uri, body: jsonEncode(body), headers: headers);
+    return client.patch(
+      uri,
+      body: useJsonEncode ? jsonEncode(body) : body,
+      headers: headers,
+    );
   }
 
   Future<http.Response> patch(
@@ -426,6 +472,7 @@ class RequestAPI {
     http.Client? client,
     bool headersReplace = false,
     bool queryParametersReplace = false,
+    bool? useJsonEncode,
     bool? useSSL,
   }) async {
     return _method(
@@ -441,6 +488,7 @@ class RequestAPI {
       headersReplace: headersReplace,
       queryParametersReplace: queryParametersReplace,
       useSSL: useSSL,
+      useJsonEncode: useJsonEncode ?? this.useJsonEncode,
     );
   }
 
