@@ -125,12 +125,8 @@ class RequestAPI {
     request.headers.addAll(headers ?? {});
     if (debug) {
       final func = logFunction ?? dev.log;
-      final queryString = _queryParameters.entries
-          .map((e) => '$e.key=$e.value')
-          .reduce((a, b) => '$a&$b');
-      final query = queryString.isNotEmpty ? '?$queryString' : '';
       func(
-        'Request $method.name: $uri$query\n\t\t'
+        'Request $method.name: $uri\n\t\t'
         '${request.headers.isNotEmpty ? 'Headers: $request.headers\n\t\t' : ''}',
       );
     }
@@ -188,12 +184,8 @@ class RequestAPI {
     _headers.addAll(headers ?? {});
     if (debug) {
       final func = logFunction ?? dev.log;
-      final queryString = _queryParameters.entries
-          .map((e) => '$e.key=$e.value')
-          .reduce((a, b) => '$a&$b');
-      final query = queryString.isNotEmpty ? '?$queryString' : '';
       func(
-        'Request $nameOfMethod: $uri$query\n\t\t'
+        'Request $nameOfMethod: $uri\n\t\t'
         '${_headers.isNotEmpty ? 'Headers: $_headers\n\t\t' : ''}'
         '${body != null ? 'Body: $body' : ''}',
       );
