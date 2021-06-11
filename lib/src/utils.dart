@@ -5,11 +5,11 @@ import 'definitions.dart';
 import 'exceptions.dart';
 
 T parseItem<T>(String data, ParserMethod<T> method) {
-  return method(jsonDecode(data));
+  return method(jsonDecode(data) as Map<String, dynamic>);
 }
 
 List<T> parseList<T>(String data, ParserMethod<T> method) {
-  return List<Map<String, dynamic>>.from(jsonDecode(data))
+  return List<Map<String, dynamic>>.from(jsonDecode(data) as Iterable)
       .map<T>(method)
       .toList();
 }
@@ -32,11 +32,11 @@ void printResponse({
   required String data,
   required void Function(String)? logFunction,
 }) {
-  var func = logFunction ?? log;
+  final func = logFunction ?? log;
   try {
     // A pretty print json function
-    var prettyData = JsonEncoder.withIndent('    ').convert(
-      JsonDecoder().convert(data),
+    final prettyData = const JsonEncoder.withIndent('    ').convert(
+      const JsonDecoder().convert(data),
     );
     func(
       'Response $method: $path\n\t\t'
@@ -53,14 +53,14 @@ void printResponse({
 }
 
 enum HttpMethod {
-  GET,
-  POST,
-  PUT,
-  PATCH,
-  DELETE,
-  OPTIONS,
+  get,
+  post,
+  put,
+  patch,
+  delete,
+  options,
 }
 
 extension HttpMethodExtensor on HttpMethod {
-  String get name => this.toString().split('.')[1];
+  String get name => toString().split('.')[1];
 }

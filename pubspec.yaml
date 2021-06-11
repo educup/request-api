@@ -11,3 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.13.3
+
+dev_dependencies:
+  lint: ^1.5.3
