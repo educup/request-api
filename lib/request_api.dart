@@ -25,6 +25,7 @@ class RequestAPI {
   final bool useSSL;
   final bool debug;
   final void Function(String)? logFunction;
+  final http.Client? client;
 
   const RequestAPI({
     required this.authority,
@@ -36,6 +37,7 @@ class RequestAPI {
     this.useSSL = true,
     this.debug = false,
     this.logFunction,
+    this.client,
   });
 
   factory RequestAPI.factory({
@@ -46,6 +48,7 @@ class RequestAPI {
     Map<String, String>? queryParameters,
     bool debug = false,
     void Function(String)? logFunction,
+    http.Client? client,
     bool replaceDefaultHeaders = false,
   }) {
     final _headers = {
@@ -68,6 +71,7 @@ class RequestAPI {
       useSSL: useSSL,
       debug: debug,
       logFunction: logFunction,
+      client: client,
     );
   }
 
@@ -221,8 +225,8 @@ class RequestAPI {
     http.Client? client,
     bool useJsonEncode,
   ) {
-    if (client == null) return http.get(uri, headers: headers);
-    return client.get(uri, headers: headers);
+    final get = client?.get ?? this.client?.get ?? http.get;
+    return get(uri, headers: headers);
   }
 
   Future<http.Response> get(
@@ -260,14 +264,8 @@ class RequestAPI {
     http.Client? client,
     bool useJsonEncode,
   ) {
-    if (client == null) {
-      return http.post(
-        uri,
-        body: useJsonEncode ? jsonEncode(body) : body,
-        headers: headers,
-      );
-    }
-    return client.post(
+    final post = client?.post ?? this.client?.post ?? http.post;
+    return post(
       uri,
       body: useJsonEncode ? jsonEncode(body) : body,
       headers: headers,
@@ -311,14 +309,8 @@ class RequestAPI {
     http.Client? client,
     bool useJsonEncode,
   ) {
-    if (client == null) {
-      return http.put(
-        uri,
-        body: useJsonEncode ? jsonEncode(body) : body,
-        headers: headers,
-      );
-    }
-    return client.put(
+    final put = client?.put ?? this.client?.put ?? http.put;
+    return put(
       uri,
       body: useJsonEncode ? jsonEncode(body) : body,
       headers: headers,
@@ -362,8 +354,8 @@ class RequestAPI {
     http.Client? client,
     bool useJsonEncode,
   ) {
-    if (client == null) return http.delete(uri, headers: headers);
-    return client.delete(uri, headers: headers);
+    final delete = client?.delete ?? this.client?.delete ?? http.delete;
+    return delete(uri, headers: headers);
   }
 
   Future<http.Response> delete(
@@ -401,8 +393,8 @@ class RequestAPI {
     http.Client? client,
     bool useJsonEncode,
   ) {
-    if (client == null) return http.head(uri, headers: headers);
-    return client.head(uri, headers: headers);
+    final head = client?.head ?? this.client?.head ?? http.head;
+    return head(uri, headers: headers);
   }
 
   Future<http.Response> head(
@@ -440,14 +432,8 @@ class RequestAPI {
     http.Client? client,
     bool useJsonEncode,
   ) {
-    if (client == null) {
-      return http.patch(
-        uri,
-        body: useJsonEncode ? jsonEncode(body) : body,
-        headers: headers,
-      );
-    }
-    return client.patch(
+    final patch = client?.patch ?? this.client?.patch ?? http.patch;
+    return patch(
       uri,
       body: useJsonEncode ? jsonEncode(body) : body,
       headers: headers,
